@@ -22,7 +22,7 @@ class AgeSpace {
 
   double onVenus() {
     double yearEarth = getSeconds() / 60 / 60 / 24 / 365.25;
-    return yearEarth / 0.2408467;
+    return yearEarth / 0.61519726;
   }
 
   double onMars() {
