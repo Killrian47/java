@@ -41,7 +41,8 @@ class AgeSpace {
   }
 
   double onUranus() {
-    throw new UnsupportedOperationException("Delete this statement and write your own implementation.");
+    double yearEarth = getSeconds() / 60 / 60 / 24 / 365.25;
+    return yearEarth / 84.016846;
   }
 
   double onNeptune() {
