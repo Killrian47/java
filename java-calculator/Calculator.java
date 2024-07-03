@@ -2,6 +2,10 @@
  * Calculator
  */
 public class Calculator {
+  private static final String ADD = "+";
+  private static final String SUBSTRACT = "-";
+  private static final String MULTIPLY = "*";
+  private static final String DIVIDE = "/";
 
   public static int add(int a, int b) {
     return a + b;
@@ -16,36 +20,52 @@ public class Calculator {
   }
 
   public static int divide(int a, int b) {
-    if (b != 0) {
-      return a / b;
-    } else {
+    if (b == 0) {
       throw new ArithmeticException("Cannot divide by zero");
     }
+    return a / b;
   }
 
   public static void main(String[] args) {
     System.out.println("Bienvenue sur la calculatrice en java");
+
     java.io.Console console = System.console();
-    String askForFirstNumber = console.readLine("Ton premier chiffre: ");
-    int firstNumber = Integer.parseInt(askForFirstNumber);
-    String operand = console.readLine("L'opérateur: ");
-    String askForSecondNumber = console.readLine("Ton second chiffre: ");
-    int secondNumber = Integer.parseInt(askForSecondNumber);
+
+    try {
+      int firstNumber = readNumber(console, "Ton premier chiffre: ");
+      String operand = console.readLine("L'opérateur: ");
+      int secondNumber = readNumber(console, "Ton second chiffre: ");
+
+      int result = calculate(firstNumber, secondNumber, operand);
+      System.out.println(
+          "Le résult pour l'opération suivante " + firstNumber + " " + operand + " " + secondNumber + " est égal à "
+              + result);
+    } catch (NumberFormatException e) {
+      System.err.println("Entrée invalide, vous devez entrer des chiffres valides.");
+    } catch (ArithmeticException e) {
+      System.err.println(e.getMessage());
+    } catch (IllegalArgumentException e) {
+      System.err.println(e.getMessage());
+    }
+  }
+
+  private static int readNumber(java.io.Console console, String prompt) throws NumberFormatException {
+    String userInput = console.readLine(prompt);
+    return Integer.parseInt(userInput);
+  }
+
+  private static int calculate(int a, int b, String operand) {
     switch (operand) {
-      case "+":
-        System.out.println("Le résultat pour cette opération est : " + Calculator.add(firstNumber, secondNumber));
-        break;
-      case "-":
-        System.out.println("Le résultat pour cette opération est : " + Calculator.substract(firstNumber, secondNumber));
-        break;
-      case "/":
-        System.out.println("Le résultat pour cette opération est : " + Calculator.divide(firstNumber, secondNumber));
-        break;
-      case "*":
-        System.out.println("Le résultat pour cette opération est : " + Calculator.multiply(firstNumber, secondNumber));
-        break;
+      case ADD:
+        return add(a, b);
+      case SUBSTRACT:
+        return substract(a, b);
+      case MULTIPLY:
+        return multiply(a, b);
+      case DIVIDE:
+        return divide(a, b);
       default:
-        break;
+        throw new IllegalArgumentException("Opérateur invalide: " + operand);
     }
   }
 }
